@@ -17,20 +17,21 @@ library(readxl)
 library(grDevices)
 library(RColorBrewer)
 
+#set question number
 idQuest<-16
+#number of hexagons in honey comb
 nHex<-3000
+#load Rdata of changes in answers
 oldans <- readRDS("OldNewMaps/input/oldans")
-#selecting only points in german speaking europe
-#germanCount2 <- readShapePoly("OldNewMaps/input/geom/germanCountries.shp")
-# proj4string(germanCount)<-CRS("+init=epsg:4326")
+#load study area
 germanCount <- readShapePoly("OldNewMaps/input/geom/merged_italygermany.shp")
 proj4string(germanCount)<-CRS("+init=epsg:4326")
-
+#load answers and their reference ids
 ansKey <- read_excel("OldNewMaps/input/oldNewAnswers.xls")
-#saveRDS(oldans,"OldNewMaps/input/oldans" )
+#load voronoi template of study area
 voro<- readRDS("OldNewMaps/input/vorotess")
 
-#setwd("C:/Users/cderungs/Dropbox/OldNewMaps/")
+
 
 load(paste("allQuest/questSPDF",idQuest,".Rdata",sep=""))
 q <- all.answ.eu
@@ -64,28 +65,21 @@ row.names(cl.complete)<-cl.complete$id
 cl.hex.spdf<-SpatialPolygonsDataFrame(cl.hex,cl.complete,match.ID=T)
 
 #writeOGR(cl.hex.spdf, "OldNewMaps/honeycomb/4", paste("honeyComb_",2), driver="ESRI Shapefile")
-#hc<- readOGR("OldNewMaps/honeycomb/3")
 
 frage <- paste0("Frage_", idQuest)
-change <- paste0("q",idQuest,"_change")
-#change <-"agg_change"
+change <- paste0("q",idQuest,"_change") # "agg_change"
 q_ansKey <- ansKey[ansKey$frageId ==idQuest,]
-# q_ansKey$oldnew <- "New"
-# q_ansKey[q_ansKey$id> 1000, "oldnew"] <- "Old"
+
+#create sequence id for color palette generation
 q_ansKey$ID <- seq(q_ansKey$id)
-#map<-oldans
 map <- oldans[oldans@data[,frage] != 0 & oldans@data[,frage]!=9999 , ]
-#map <- oldans[oldans@data[,frage] != 0 & oldans@data[,frage] <1000 , ]
 map <- merge(map,q_ansKey ,by.x= frage, by.y= "id")
 names(map@data)[ncol(map@data)]<-"ID"
 map@data[is.na(map@data)] <- 1
-# map_o <- oldans[oldans@data[,frage]>1000 & oldans@data[,frage]!=9999,]
-# map_o <- merge(map_o,q_ansKey ,by.x= frage, by.y= "id")
 df <-as.data.frame(q_ansKey[,c("id","antwort")])
 #join with ans key
 cl.hex.spdf@data <- data.frame(cl.hex.spdf@data, df[match(as.numeric(cl.hex.spdf@data[,"maxLevel"]),df[,"id"]),])
 
-#oldans@data$Frage_6[oldans@data$Frage_6 ==1057] <-48 
 
 #remove NA
 cl_noNA <- cl.hex.spdf[complete.cases(cl.hex.spdf@data[ , "maxLevel"]),]
@@ -94,22 +88,17 @@ cl_noNA <- cl_noNA[cl_noNA@data$total>20,]
 cl_noNA <- merge(cl_noNA, q_ansKey, by ="antwort" )
 #map <- merge(map, q_ansKey[,c("ID", "id")], by ="antwort" )
 
-
+#population voronoi tessellation with change 
 changedata <- over(voro, map[,change])
 voro$change <-changedata[,change]
 voro$change[is.na(voro$change)] <- 0
 voro$change <- voro$change*100
 
+#colour palettes 
 pal <- colorFactor(
   plasma(length(q_ansKey$antwort)),
   as.factor(q_ansKey$ID))
-#[q_ansKey$id <1000]
-#, na.color = "white"
-# pal <- colorFactor(
-#   inferno(length(ansKey$id[ansKey$frageId== idQuest][ansKey$id[ansKey$frageId== idQuest] <1000])),
-#   ansKey$id[ansKey$frageId== idQuest][ansKey$id[ansKey$frageId== idQuest] <1000], na.color = "white")
-# pal2 <- colorQuantile("Greens",
-#                  voro$change, n = 5)
+
 pal2 <- colorBin("Greens",
                  voro$change, n = 5)
 
@@ -120,12 +109,6 @@ contenthoneycomb <- paste("<b>","Dominant Variable: ",cl_noNA$antwort ,"</b>","<
 
 # content_agg <- paste("<b>","Aggregate change: ","</b>",round(map$agg_change,4)*100 ,"%")
                           
-#ansKey[ansKey$id %in% as.integer(cl.hex.spdf$maxLevel), "antwort"]
-#cl.hex.spdf$maxLevel
-
-# content_oldpts1000 <- paste("<b>","Dominant Variable: ", map_o$antwort,"</b>","<br/>",
-#                           "Degree of change: ", round(map_o@data[,change],2)*100,"%","<br/>")
-
 
 content_oldpts <- paste("<b>", map@data$Name,"<br/>","Dominant Variable: ", map$antwort, "</b>","<br/>",
                             "Degree of change: ", round(map@data[,change],2)*100,"%","<br/>"
@@ -133,7 +116,7 @@ content_oldpts <- paste("<b>", map@data$Name,"<br/>","Dominant Variable: ", map$
 
 
 
-
+# Generate leaflet map
 m2 <- leaflet() %>% 
   # Base groups
   addProviderTiles("Stamen.TonerLite", group = "Basemap") %>%
@@ -161,11 +144,5 @@ m2 <- leaflet() %>%
     overlayGroups = c("Basemap","Old Answers", "New Answers", "Change"),
     options = layersControlOptions(collapsed = FALSE))
 
-# Layers control
-#addLayersControl(
-# baseGroups = c("Terrain","Satellite"),
-#overlayGroups = c("hex","Ungulates"),
-#options = layersControlOptions(collapsed = TRUE)
-#)
 m2
 
