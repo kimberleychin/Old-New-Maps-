@@ -674,7 +674,7 @@ all_questions_change <- merge(q1_change,q2_change, by= "V1")
 names(all_questions_change)<- c("location", "q1_change", "q2_change")
 all_questions_change <- merge(all_questions_change,q4_change, by.x= "location",by.y= "V1")
 names(all_questions_change)[4]<-"q4_change"
-all_questions_change <- merge(all_questions_change,q5_change, by.x= "ID",by.y= "V1")
+all_questions_change <- merge(all_questions_change,q5_change, by.x= "location",by.y= "V1")
 names(all_questions_change)[5]<-"q5_change"
 all_questions_change <- merge(all_questions_change,q6_change, by.x= "location",by.y= "V1")
 names(all_questions_change)[6]<-"q6_change"
