@@ -720,12 +720,12 @@ names(oldans)[2] <- "Name"
 names(oldans)[3] <- "Code"
 saveRDS(oldans, "input/oldans")
 
-writeOGR(oldans, "input", "oldpoints", driver = "ESRI Shapefile")
+writeOGR(oldans, "OldData_WDU", "oldpoints", driver = "ESRI Shapefile")
 
-vormittagsfruhstuck_2<- read_excel("OldData_WDU/vormittagsfruhstuck.xlsx")
-coordinates(vormittagsfruhstuck_2)<-~X+Y
-proj4string(vormittagsfruhstuck_2) <- CRS("+init=epsg:4326")
-writeOGR(vormittagsfruhstuck_2, "OldData_WDU", "2_vormittagsfruhstuck", driver = "ESRI Shapefile")
+# Geldbörse<- read_excel("OldData_WDU/16_Geldbörse.xlsx")
+# coordinates(Geldbörse)<-~X+Y
+# proj4string(Geldbörse) <- CRS("+init=epsg:4326")
+# writeOGR(Geldbörse, "OldData_WDU", "16_Geldbörse", driver = "ESRI Shapefile")
 
 
 # plot(voronoi(oldans),add=T)
