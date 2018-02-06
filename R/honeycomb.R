@@ -18,18 +18,18 @@ library(grDevices)
 library(RColorBrewer)
 
 #set question number
-idQuest<-16
+idQuest<-1
 #number of hexagons in honey comb
 nHex<-3000
 #load Rdata of changes in answers
-oldans <- readRDS("OldNewMaps/input/oldans")
+oldans <- readRDS("input/oldans")
 #load study area
-germanCount <- readShapePoly("OldNewMaps/Misc/merged_italygermany.shp")
+germanCount <- readShapePoly("Misc/merged_italygermany.shp")
 proj4string(germanCount)<-CRS("+init=epsg:4326")
 #load answers and their reference ids
-ansKey <- read_excel("OldNewMaps/Misc/oldNewAnswers.xls")
+ansKey <- read_excel("Misc/oldNewAnswers.xls")
 #load voronoi template of study area
-voro<- readRDS("OldNewMaps/input/vorotess")
+voro<- readRDS("input/vorotess")
 
 
 
@@ -63,8 +63,8 @@ cl.complete<-merge(cl.complete,cl.over.wide,by="id",all.x=T)
 row.names(cl.complete)<-cl.complete$id
 
 cl.hex.spdf<-SpatialPolygonsDataFrame(cl.hex,cl.complete,match.ID=T)
-
-#writeOGR(cl.hex.spdf, "OldNewMaps/honeycomb/4", paste("honeyComb_",2), driver="ESRI Shapefile")
+honeycomb <- cl.hex.spdf[,"id"]
+#writeOGR(honeycomb, "NewData_SPON", "honeycomb", driver="ESRI Shapefile")
 
 frage <- paste0("Frage_", idQuest)
 change <- paste0("q",idQuest,"_change") # "agg_change"
@@ -80,6 +80,8 @@ df <-as.data.frame(q_ansKey[,c("id","antwort")])
 #join with ans key
 cl.hex.spdf@data <- data.frame(cl.hex.spdf@data, df[match(as.numeric(cl.hex.spdf@data[,"maxLevel"]),df[,"id"]),])
 
+#cl.hex.spdf <- cl.hex.spdf[,!(names(cl.hex.spdf) %in% "id.1")] 
+#write.table(cl.hex.spdf@data,paste0("OldNewMaps/input/",frage,".csv"), sep=",")
 
 #remove NA
 cl_noNA <- cl.hex.spdf[complete.cases(cl.hex.spdf@data[ , "maxLevel"]),]

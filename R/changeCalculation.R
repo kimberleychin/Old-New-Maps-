@@ -16,8 +16,8 @@ library(spatstat)
 
 
 
-all.location.answers <- read_excel("OldNewMaps/Misc/allLocationAnswers.xls")
-ansKey <- read_excel("OldNewMaps/Misc/oldNewAnswers.xls")
+all.location.answers <- read_excel("Misc/allLocationAnswers.xls")
+ansKey <- read_excel("Misc/oldNewAnswers.xls")
 
 
 
@@ -709,7 +709,7 @@ all_questions_change$agg_change <-rowMeans(all_questions_change[,6:19], na.rm=TR
 write.csv(all_questions_change,"OldNewMaps/Misc/allLocationChanges.csv")
 
 ###NAMES WITH CORRECT UMLAUTS
-change<-read.csv("OldNewMaps/Misc/allLocationChanges.csv")
+change<-read.csv("Misc/allLocationChanges.csv")
 
 
 oldans<-all.location.answers
@@ -718,12 +718,14 @@ remove <- c("Name.y", " Code.y", "X.1")
 oldans <- oldans[ , !(names(oldans) %in% remove)]
 names(oldans)[2] <- "Name"
 names(oldans)[3] <- "Code"
-oldans@data$Name <- all.location.answers@data$Name
-saveRDS(oldans, "OldNewMaps/input/oldans")
+saveRDS(oldans, "input/oldans")
 
-writeOGR(oldans, "OldNewMaps/input", "oldpoints", driver = "ESRI Shapefile")
+writeOGR(oldans, "input", "oldpoints", driver = "ESRI Shapefile")
 
-
+vormittagsfruhstuck_2<- read_excel("OldData_WDU/vormittagsfruhstuck.xlsx")
+coordinates(vormittagsfruhstuck_2)<-~X+Y
+proj4string(vormittagsfruhstuck_2) <- CRS("+init=epsg:4326")
+writeOGR(vormittagsfruhstuck_2, "OldData_WDU", "2_vormittagsfruhstuck", driver = "ESRI Shapefile")
 
 
 # plot(voronoi(oldans),add=T)
