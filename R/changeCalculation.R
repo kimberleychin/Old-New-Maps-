@@ -31,7 +31,7 @@ plot(all.location.answers)
 
 
 
-locations <- read_excel("OldNewMaps/Misc/allLocationAnswers.xls")
+locations <- read_excel("Misc/allLocationAnswers.xls")
 locations<- locations[,c("X", "Y","ID", "Name", "Code")]
 locations[is.na(locations)] <- 0
 # 
@@ -706,7 +706,7 @@ all_questions_change <- merge(locations, all_questions_change, by.x="ID", by.y="
 all_questions_change$agg_change <-rowMeans(all_questions_change[,6:19], na.rm=TRUE)
 
 
-write.csv(all_questions_change,"OldNewMaps/Misc/allLocationChanges.csv")
+write.csv(all_questions_change,"Misc/allLocationChanges.csv")
 
 ###NAMES WITH CORRECT UMLAUTS
 change<-read.csv("Misc/allLocationChanges.csv")
@@ -718,7 +718,7 @@ remove <- c("Name.y", " Code.y", "X.1")
 oldans <- oldans[ , !(names(oldans) %in% remove)]
 names(oldans)[2] <- "Name"
 names(oldans)[3] <- "Code"
-saveRDS(oldans, "input/oldans")
+saveRDS(oldans, "Misc/oldans")
 
 writeOGR(oldans, "OldData_WDU", "oldpoints", driver = "ESRI Shapefile")
 
@@ -748,5 +748,5 @@ plot(X, add = TRUE) # Add points
 tile.areas(y) #Areas
 tess.spdf <-as(y, "SpatialPolygons")    
 proj4string(tess.spdf) <- CRS("+init=epsg:4326")
-saveRDS(tess.spdf, "OldNewMaps/input/vorotess")
+saveRDS(tess.spdf, "Misc/vorotess")
 

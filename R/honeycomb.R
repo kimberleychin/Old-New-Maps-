@@ -22,14 +22,14 @@ idQuest<-1
 #number of hexagons in honey comb
 nHex<-3000
 #load Rdata of changes in answers
-oldans <- readRDS("input/oldans")
+oldans <- readRDS("Misc/oldans")
 #load study area
 germanCount <- readShapePoly("Misc/merged_italygermany.shp")
 proj4string(germanCount)<-CRS("+init=epsg:4326")
 #load answers and their reference ids
 ansKey <- read_excel("Misc/oldNewAnswers.xls")
 #load voronoi template of study area
-voro<- readRDS("input/vorotess")
+voro<- readRDS("Misc/vorotess")
 
 
 
@@ -81,7 +81,7 @@ df <-as.data.frame(q_ansKey[,c("id","antwort")])
 cl.hex.spdf@data <- data.frame(cl.hex.spdf@data, df[match(as.numeric(cl.hex.spdf@data[,"maxLevel"]),df[,"id"]),])
 
 #cl.hex.spdf <- cl.hex.spdf[,!(names(cl.hex.spdf) %in% "id.1")] 
-#write.table(cl.hex.spdf@data,paste0("OldNewMaps/input/",frage,".csv"), sep=",")
+#write.table(cl.hex.spdf@data,paste0("Misc/",frage,".csv"), sep=",")
 
 #remove NA
 cl_noNA <- cl.hex.spdf[complete.cases(cl.hex.spdf@data[ , "maxLevel"]),]
