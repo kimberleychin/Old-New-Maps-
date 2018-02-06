@@ -16,8 +16,8 @@ library(spatstat)
 
 
 
-all.location.answers <- read_excel("OldNewMaps/input/allLocationAnswers.xls")
-ansKey <- read_excel("OldNewMaps/input/oldNewAnswers.xls")
+all.location.answers <- read_excel("OldNewMaps/Misc/allLocationAnswers.xls")
+ansKey <- read_excel("OldNewMaps/Misc/oldNewAnswers.xls")
 
 
 
@@ -31,7 +31,7 @@ plot(all.location.answers)
 
 
 
-locations <- read_excel("OldNewMaps/input/allLocationAnswers.xls")
+locations <- read_excel("OldNewMaps/Misc/allLocationAnswers.xls")
 locations<- locations[,c("X", "Y","ID", "Name", "Code")]
 locations[is.na(locations)] <- 0
 # 
@@ -706,10 +706,10 @@ all_questions_change <- merge(locations, all_questions_change, by.x="ID", by.y="
 all_questions_change$agg_change <-rowMeans(all_questions_change[,6:19], na.rm=TRUE)
 
 
-write.csv(all_questions_change,"OldNewMaps/input/allLocationChanges.csv")
+write.csv(all_questions_change,"OldNewMaps/Misc/allLocationChanges.csv")
 
 ###NAMES WITH CORRECT UMLAUTS
-change<-read.csv("OldNewMaps/input/allLocationChanges.csv")
+change<-read.csv("OldNewMaps/Misc/allLocationChanges.csv")
 
 
 oldans<-all.location.answers
