@@ -24,10 +24,10 @@ nHex<-3000
 #load Rdata of changes in answers
 oldans <- readRDS("OldNewMaps/input/oldans")
 #load study area
-germanCount <- readShapePoly("OldNewMaps/input/geom/merged_italygermany.shp")
+germanCount <- readShapePoly("OldNewMaps/Misc/merged_italygermany.shp")
 proj4string(germanCount)<-CRS("+init=epsg:4326")
 #load answers and their reference ids
-ansKey <- read_excel("OldNewMaps/input/oldNewAnswers.xls")
+ansKey <- read_excel("OldNewMaps/Misc/oldNewAnswers.xls")
 #load voronoi template of study area
 voro<- readRDS("OldNewMaps/input/vorotess")
 
