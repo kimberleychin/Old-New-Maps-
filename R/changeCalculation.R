@@ -720,8 +720,10 @@ names(oldans)[2] <- "Name"
 names(oldans)[3] <- "Code"
 saveRDS(oldans, "Misc/oldans")
 
-writeOGR(oldans, "OldData_WDU", "oldpoints", driver = "ESRI Shapefile")
-
+# writeOGR(oldans, "OldData_WDU", "oldpoints", driver = "ESRI Shapefile")
+# oldans1<-oldans[,1:3]
+# oldans1 <- cbind(oldans1, oldans[,34])
+# writeOGR(oldans1, "Maps", "q23_change" , driver = "ESRI Shapefile")
 # Geldbörse<- read_excel("OldData_WDU/16_Geldbörse.xlsx")
 # coordinates(Geldbörse)<-~X+Y
 # proj4string(Geldbörse) <- CRS("+init=epsg:4326")
