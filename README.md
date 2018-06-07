@@ -24,9 +24,9 @@
 
 <h4>Sources:</h4>
 <i>Old answers</i>: Wortatlas der Deutschen Umgangssprachen, vol 1 - 4  </br>
-Volume 1 : Question Frühstuck, die Steinschleuder, der Schluckauf, viertel </br>
-Volume 2: der Kanten, die Frikadelle, die Kartoffelbrei</br>
-Volume 3: sich unterhalten, die Geldbörse, Fußball spielen, der Federmäppchen</br>
-Volume 4: die Hausschuhe, die Teigfigur, der Pfannekuchen</br>
+      Volume 1 : Question Frühstuck, die Steinschleuder, der Schluckauf, viertel </br>
+      Volume 2: der Kanten, die Frikadelle, die Kartoffelbrei</br>
+      Volume 3: sich unterhalten, die Geldbörse, Fußball spielen, der Federmäppchen</br>
+      Volume 4: die Hausschuhe, die Teigfigur, der Pfannekuchen</br>
 </br>
 <i>New Answers.xls</i>: Collected from online game and book of the same name, "Grüezi, Moin, Servus"</br>
