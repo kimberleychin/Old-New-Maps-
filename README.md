@@ -7,11 +7,17 @@
 <i>oldNewAnswers.xls</i>: Answer key with compiled list of all answers and their reference ids </br>
 <i>allLocationChanges.csv</i>: % Changes of word use at the locations of each old data point </br>
 <i>allQuestions.csv</i>: List of all questions </br>
+<i>oldans<i>: R object of old answers and their locations </br>
+<i>total_merged.shp</i>: Shapefile of entire study area </br>  
+
+<h4>NewData_SPON:</h4>
+.csv files of new answers in honeycomb grid, all ages</br>
+honeycomb.shp: honeycomb grid shapefile</br>
+
+<h4>OldData_WDU:</h4>
+.xlsx and corresponding shapefiles of old data points and their answers for each question</br>
 </br>
-<h4>geom:</h4>
-<i>merged_italygermany.shp</i>: Shapefiles of entire study area </br>
-<i>oldpoints.shp</i></br>: Data points of old answers 
-allQuest: All new answers and their locations (.Rdata)</br>
+
 <h4>R:</h4>
 <i>changeCalculation.R</i>: R script of how change calculations were made </br>
 <i>honeycomb.R</i>: How maps are generated with all the information </br>
